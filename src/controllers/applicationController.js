@@ -59,13 +59,20 @@ export const getApplications = async (req, res) => {
         });
 
         res.json({
+            success: true,
             applications,
             page: Number(page),
             pages: Math.ceil(count / limit),
             total: count
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error('Error fetching applications:', error);
+        res.status(500).json({
+            success: false,
+            message: error.message,
+            applications: [],
+            total: 0
+        });
     }
 };
 
@@ -100,12 +107,16 @@ export const exportApplications = async (req, res) => {
 // @route   GET /api/applications/:id
 // @access  Private
 export const getApplicationById = async (req, res) => {
-    const application = await Application.findByPk(req.params.id);
+    try {
+        const application = await Application.findByPk(req.params.id);
 
-    if (application) {
-        res.json(application);
-    } else {
-        res.status(404).json({ message: 'Application not found' });
+        if (application) {
+            res.json({ success: true, data: application });
+        } else {
+            res.status(404).json({ success: false, message: 'Application not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
 };
 
@@ -113,23 +124,27 @@ export const getApplicationById = async (req, res) => {
 // @route   PATCH /api/applications/:id/status
 // @access  Private
 export const updateApplicationStatus = async (req, res) => {
-    const { status } = req.body;
+    try {
+        const { status } = req.body;
 
-    const application = await Application.findByPk(req.params.id);
+        const application = await Application.findByPk(req.params.id);
 
-    if (application) {
-        application.status = status;
-        const updatedApplication = await application.save();
+        if (application) {
+            application.status = status;
+            const updatedApplication = await application.save();
 
-        // Send email to parent
-        await sendEmail(
-            application.email,
-            `Update on ${application.playerName}'s Application`,
-            statusUpdateTemplate(application, status).html
-        );
+            // Send email to parent
+            await sendEmail(
+                application.email,
+                `Update on ${application.playerName}'s Application`,
+                statusUpdateTemplate(application, status).html
+            );
 
-        res.json(updatedApplication);
-    } else {
-        res.status(404).json({ message: 'Application not found' });
+            res.json({ success: true, data: updatedApplication });
+        } else {
+            res.status(404).json({ success: false, message: 'Application not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
 };
