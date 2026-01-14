@@ -19,14 +19,15 @@ export const login = async (req, res) => {
         await admin.save();
 
         res.json({
+            success: true,
             id: admin.id,
             name: admin.name,
-            email: admin.email,
+            email: admin.email, // This is what the frontend is looking for
             accessToken,
             refreshToken
         });
     } else {
-        res.status(401).json({ message: 'Invalid email or password' });
+        res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
 };
 
