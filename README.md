@@ -1,6 +1,6 @@
 # Homeland Football Academy Backend API
 
-A secure, RESTful API built with Node.js, Express, and MongoDB for managing academy applications, video content, and dashboard statistics.
+A secure, RESTful API built with Node.js, Express, and MySQL for managing academy applications, video content, and dashboard statistics.
 
 ## Features
 
@@ -15,12 +15,12 @@ A secure, RESTful API built with Node.js, Express, and MongoDB for managing acad
 
 - **Runtime**: Node.js (ESM)
 - **Framework**: Express.js
-- **Database**: MongoDB + Mongoose
+- **Database**: MySQL + Sequelize
 - **Auth**: JWT + Bcryptjs
 - **Validation**: Joi
 - **Export**: ExcelJS + CSV-Stringify
 - **Email**: Nodemailer (SMTP)
-- **Testing**: Jest + Supertest + MongoDB Memory Server
+- **Testing**: Jest + Supertest
 
 ## Setup Instructions
 
@@ -30,11 +30,11 @@ A secure, RESTful API built with Node.js, Express, and MongoDB for managing acad
    ```
 
 2. **Environment Variables**:
-   Create a `.env` file in the root directory (refer to `.env.example` or the provided specification).
+   Create a `.env` file in the root directory (refer to the documentation).
 
 3. **Seed Admin User**:
    ```bash
-   npm run seed
+   node src/utils/seedAdmin.js
    ```
    *Default Credentials:*
    - Email: `admin@homelandfc.com`
