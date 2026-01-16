@@ -12,7 +12,10 @@ import { videoSchema, videoUpdateSchema } from '../middleware/validators.js';
 
 const router = express.Router();
 
-router.use(protect); // All video routes are protected as per requirements
+// Public routes for gallery
+router.get('/public', getVideos);
+
+router.use(protect); // Protected Admin routes below
 
 router.route('/')
     .get(getVideos)

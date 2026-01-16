@@ -71,6 +71,7 @@ A secure, RESTful API built with Node.js, Express, and MySQL for managing academ
 - `PATCH /api/applications/:id/status`: Update status (protected)
 
 ### Videos
+- `GET /api/videos/public`: List all videos (Public - for gallery)
 - `GET /api/videos`: List all videos (protected)
 - `POST /api/videos`: Add new video (protected)
 - `PATCH /api/videos/:id`: Update video (protected)
