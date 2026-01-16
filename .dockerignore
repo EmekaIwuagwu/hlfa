@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+coverage
+tests
+scripts/setup-db.js
+sync-models.js
+check-database.js
+tester.js
+LOCAL_MYSQL_SETUP.md
+TESTING.md
+Dockerfile
+.dockerignore

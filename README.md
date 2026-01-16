@@ -32,13 +32,13 @@ A secure, RESTful API built with Node.js, Express, and MySQL for managing academ
 2. **Environment Variables**:
    Create a `.env` file in the root directory (refer to the documentation).
 
-3. **Seed Admin User**:
+3. **Database Setup & Migrations**:
+   The backend includes an automated script to create the database, tables, and the initial admin user.
+   
+   See the [Database Setup Guide](#database-setup-guide) for details.
    ```bash
-   node src/utils/seedAdmin.js
+   node scripts/setup-db.js
    ```
-   *Default Credentials:*
-   - Email: `admin@homelandfc.com`
-   - Password: `adminpassword123`
 
 4. **Run Development Server**:
    ```bash
@@ -48,6 +48,11 @@ A secure, RESTful API built with Node.js, Express, and MySQL for managing academ
 5. **Run Tests**:
    ```bash
    npm test
+   ```
+
+6. **Deploy with Docker**:
+   ```bash
+   docker compose up --build -d
    ```
 
 ## API Endpoints
@@ -79,3 +84,34 @@ A secure, RESTful API built with Node.js, Express, and MySQL for managing academ
 
 ### Contact
 - `POST /api/contact/send-contact-email`: Submit contact form
+
+---
+
+## Database Setup Guide
+
+To initialize your backend with a new MySQL/MariaDB database:
+
+### 1. Configure Environment
+Update your `.env` file with your `DATABASE_URL`. If the database doesn't exist yet, point it to the server's root or a system table (like `mysql`) so the script can connect and create the `homelandfc` database.
+
+Example:
+`DATABASE_URL=mysql://user:pass@host:port/mysql`
+
+### 2. Run Setup Script
+Execute the following command:
+```bash
+node scripts/setup-db.js
+```
+
+**What this script does:**
+1. **Creates Database**: Checks if `homelandfc` exists, and creates it if not.
+2. **Migrates Tables**: Automatically creates/updates the `Admins`, `Applications`, `Videos`, and `ContactMessages` tables.
+3. **Seeds Admin**: Creates a default Super Admin user.
+
+*Default Admin Credentials:*
+- **Email**: `admin@homelandfc.com`
+- **Password**: `adminpassword123`
+
+### 3. Update Environment
+After the script completes, ensure your `.env` points to the correctly created database:
+`DATABASE_URL=mysql://user:pass@host:port/homelandfc`
